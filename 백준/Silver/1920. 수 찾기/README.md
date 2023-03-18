@@ -22,3 +22,4 @@
 
  <p>M개의 줄에 답을 출력한다. 존재하면 1을, 존재하지 않으면 0을 출력한다.</p>
 
+![DF6C38B0-E1A0-4D90-88D6-8A75AD58004E](https://user-images.githubusercontent.com/50546745/226095230-efde0848-95d0-4093-a52c-20ac296be16f.jpeg)
