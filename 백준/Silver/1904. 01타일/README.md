@@ -28,3 +28,4 @@
 
  <p>첫 번째 줄에 지원이가 만들 수 있는 길이가 N인 모든 2진 수열의 개수를 15746으로 나눈 나머지를 출력한다.</p>
 
+![1023A3BC-553F-42AF-85DE-F9503EB31E02](https://user-images.githubusercontent.com/50546745/226095174-afe7ec59-c702-4b22-aa6a-ef6bafcad5d9.jpeg)
