@@ -6,7 +6,7 @@ class Solution {
             if('a' <= s.charAt(i) && s.charAt(i) <= 'z'){
                 answer = answer + (char)((s.charAt(i) - 97 + n) % 26 + 97); 
             }
-            else if('A' <= s.charAt(i) && s.charAt(i) <= 'Z'){
+            else if(Character.isUpperCase(s.charAt(i))){
                answer = answer + (char)((s.charAt(i) - 65 + n) % 26 + 65);  
             }
             else{
