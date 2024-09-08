@@ -6,12 +6,6 @@ class Solution {
             visit[section[i] - 1] = 1;
         }
         
-        System.out.print("original : ");
-        for(int i = 0 ; i < visit.length; i ++ ){
-            System.out.print(visit[i]);
-        }
-        System.out.println();
-        
         for(int i = 0 ; i < section.length ; i ++ ){
             int cur = section[i] - 1;
             if(visit[cur] == 1){
