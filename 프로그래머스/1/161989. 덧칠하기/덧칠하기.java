@@ -9,7 +9,7 @@ class Solution {
         for(int i = 0 ; i < section.length ; i ++ ){
             int cur = section[i] - 1;
             if(visit[cur] == 1){
-                int end = cur + m >= n - 1 ? n : cur+m; 
+                int end = cur + m >= n ? n  : cur + m; 
                 for(int j = cur ; j < end ; j++ ){
                     visit[j] = 0;
                 }
