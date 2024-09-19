@@ -1,0 +1,5 @@
+-- 코드를 입력하세요
+SELECT BOOK_ID, LEFT(PUBLISHED_DATE,10) AS PUBLISHED_DATE 
+FROM BOOK
+WHERE YEAR(published_date) = 2021 AND category = '인문'
+;
