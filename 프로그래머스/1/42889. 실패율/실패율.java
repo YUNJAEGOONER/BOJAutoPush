@@ -16,7 +16,7 @@ class Solution {
         
         int sum = 0;
         for(int i = 0 ; i < users.length - 1 ; i ++ ){
-            if(users[i] == 0){
+            if(stages.length - sum == 0){
                 map.put(i + 1, (float)0);
             }
             else{
