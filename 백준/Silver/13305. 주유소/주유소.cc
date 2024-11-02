@@ -20,13 +20,13 @@ int main() {
         price.push_back(p);
     }
 
-    int sum = 0;
+    long long sum = 0;
     int min_price = price[0];
     for(int i = 0 ; i < N - 1 ; i ++) {
         if(min_price > price[i]) {
             min_price = price[i];
         }
-        sum = sum + min_price * distance[i];
+        sum = sum + (long long)min_price * distance[i];
     }
 
     cout << sum;
