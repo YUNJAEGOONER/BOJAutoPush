@@ -22,12 +22,12 @@ int main() {
     vector<pair<pair<int, int>, int>> myqueue;
 
     myqueue.push_back(make_pair(make_pair(0, 0), 1));
-
+    vec[0][0] = 0;
+    
     while(!vec.empty()) {
         int dis = myqueue.front().second;
         int cur_i = myqueue.front().first.first;
         int cur_j = myqueue.front().first.second;
-        vec[cur_i][cur_j] = 0;
         myqueue.erase(myqueue.begin());
 
         if(cur_i == n - 1 && cur_j == m - 1) {
