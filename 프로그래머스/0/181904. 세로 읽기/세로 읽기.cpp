@@ -4,10 +4,11 @@
 using namespace std;
 
 string solution(string my_string, int m, int c) {
-    string answer = "";
+    vector<char> answer;
     while(c <= my_string.size()){
-        answer = answer + my_string[c - 1];
+        answer.push_back(my_string[c - 1]);
         c = c + m;
     }
-    return answer;
+    //vector<char> -> int
+    return string(answer.begin(), answer.end());
 }
