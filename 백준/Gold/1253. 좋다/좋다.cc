@@ -14,46 +14,54 @@ int main() {
     vector<long long> vec;
 
     vector<long long> result;
-    map<long, int> mmap1253;
+    map<long, vector<int>> mmap1253;
 
     while(n--) {
         long long e;
         cin >> e;
-        mmap1253[e] ++;
         vec.push_back(e);
+        mmap1253[e].push_back(vec.size() - 1);
     }
 
-    for(int i = 0 ; i < vec.size() - 1 ; i ++ ) {
-        int end = i + 1;
-        long long sum = vec[i] + vec[end];
-        while(end < vec.size()) {
-            if(mmap1253[sum]) {
-                if(sum == vec[i] && sum == vec[end]) {
-                    if(mmap1253[sum] > 2) {
-                        result.push_back(sum);
-                    }
+    sort(vec.begin(), vec.end());
+
+    for(int i = 0 ; i < vec.size() ; i ++ ) {
+        long long target = vec[i];
+
+        int s = 0;
+        int end = vec.size() - 1;
+        int sum = vec[s] + vec[end];
+
+
+        while(s < end) {
+            if(sum == target){
+                if(s == i) {
+                    sum -= vec[s];
+                    sum += vec[++s];
                 }
-                else if(sum == vec[i] || sum == vec[end]) {
-                    if(mmap1253[sum] >= 2) {
-                        result.push_back(sum);
-                    }
+                else if(end == i) {
+                    sum -= vec[end];
+                    sum += vec[--end];
                 }
                 else {
-                    result.push_back(sum);
+                    result.push_back(target);
+                    break;
                 }
             }
-            sum -= vec[end];
-            sum += vec[++end];
+            else {
+                if(sum < target) {
+                    sum -= vec[s];
+                    sum += vec[++s];
+                }
+                else {
+                    sum -= vec[end];
+                    sum += vec[--end];
+                }
+            }
         }
     }
 
-    int answer = 0;
-    for(auto a : result) {
-        //cout << a << ' ';
-        answer += mmap1253[a];
-        mmap1253[a] = 0;
-    }
-    cout << answer;
+    cout << result.size();
 
     return 0;
 }
