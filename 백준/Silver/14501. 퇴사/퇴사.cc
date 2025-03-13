@@ -14,6 +14,7 @@ int main() {
     int ans = 0;
 
     vector<pair<int, int>> task;
+
     task.push_back(make_pair(0,0));
 
     for(int i = 0 ; i < n ; i ++) {
@@ -28,26 +29,19 @@ int main() {
 
     for(int i = 1 ; i < task.size(); i ++ ) {
 
-        if(max < dp[i - 1]) {
-            max = dp[i - 1];
-        }
+        if(dp[i - 1] < max) dp[i - 1] = max;
 
         //해당 번째를 실행 할 수 있는 경우
         if(i + task[i].first - 1 <= n) {
             if(dp[i + task[i].first - 1] < dp[i - 1] + task[i].second) {
                 dp[i + task[i].first - 1] = dp[i - 1] + task[i].second;
             }
-            if(dp[i + task[i].first - 1] < max + task[i].second) {
-                dp[i + task[i].first - 1] = max + task[i].second;
-            }
         }
 
+        if(max < dp[i]) max = dp[i];
     }
 
-    for(auto a : dp) {
-        if(max < a) max = a;
-    }
 
-    cout << max;
+    cout << max << ' ';
     return 0;
 }
