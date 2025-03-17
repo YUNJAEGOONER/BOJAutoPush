@@ -3,41 +3,39 @@
 #include <iostream>
 
 using namespace std;
-vector<int> visit;
-vector<int> element;
+
+
+vector<int> temp;
+vector<int> nums;
 int answer = 0;
 
-
-void dfs_target(int start, int end, int count, int target){
-    int sum = 0;
-    if(count > 0){
-        for(int i = 0 ; i < visit.size() ; i ++ ){
-            if(visit[i] == 1){
-                sum = sum + (-1) * element[i];
+void dfs(int depth, int size, int t){
+    if(depth == size){
+        int sum = 0;
+        for(int i = 0 ; i < size ; i ++ ){
+            if(temp[i] == 0){
+                sum -= nums[i];
             }
             else{
-                sum = sum + element[i];
+                sum += nums[i];
             }
         }
-        if(sum == target) answer ++;
+        if(sum == t){
+            answer ++;
+        }
+        return; 
     }
-    for(int i = start ; i < end; i ++ ){
-        if(visit[i])continue;
-        visit[i] = 1;
-        dfs_target(i, end, count + 1, target);
-        visit[i] = 0;
+    for(int i = 0 ; i < 2 ; i ++ ){
+        temp.push_back(i);
+        dfs(depth + 1, size, t);
+        temp.pop_back();
     }
 }
 
 int solution(vector<int> numbers, int target) {
+   
+    nums = numbers;
     
-    
-    for(int i = 0 ; i < numbers.size(); i ++ ){
-        visit.push_back(0);
-    }
-    
-    element = numbers;
-    dfs_target(0, numbers.size(), 0, target);
-    
+    dfs(0, numbers.size(), target);
     return answer;
 }
