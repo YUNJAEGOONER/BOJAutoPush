@@ -1,89 +1,93 @@
 #include <string>
-#include <iostream>
 #include <map>
-#include <set>
+#include <iostream>
 
 using namespace std;
 
-bool isAlphabet(char c){
-    bool result = false;
-    if('A' <= c && c <= 'Z'){
-        result = true;
-    }
-    return result;
-}
-
 int solution(string str1, string str2) {
     int answer = 0;
-    float result = 1.f;
     
-    //convert to CAPITAL
-    for(int i = 0 ; i < str1.size() ; i ++ ){
-        if('a' <= str1[i] && str1[i] <= 'z'){
-            str1[i] = str1[i] - 32;
+    for(int i = 0 ; i < str1.size() ; i ++){
+        if('A' <= str1[i] && str1[i] <= 'Z'){
+            str1[i] = (str1[i] + 32);
         }
     }
     
-    for(int i = 0 ; i < str2.size() ; i ++ ){
-        if('a' <= str2[i] && str2[i] <= 'z'){
-            str2[i] = str2[i] - 32;
-        }
-    }
-
-    set<string> keys;
-
-    map<string, int> m1;
-    map<string, int> m2;
-    
-    for(int i = 0 ; i < str1.size() - 1 ; i ++ ){    
-        if(isAlphabet(str1[i]) && isAlphabet(str1[i + 1])){
-            string temp = "";
-            temp = temp + str1[i];
-            temp = temp + str1[i + 1];
-            m1[temp]++;
-            keys.insert(temp);
-        }
-    }
-
-    for(int i = 0 ; i < str2.size() - 1 ; i ++ ){    
-        if(isAlphabet(str2[i]) && isAlphabet(str2[i + 1])){
-            string temp = "";
-            temp = temp + str2[i];
-            temp = temp + str2[i + 1];
-            m2[temp]++;
-            keys.insert(temp);
+    for(int i = 0 ; i < str2.size() ; i ++){
+        if('A' <= str2[i] && str2[i] <= 'Z'){
+            str2[i] = (str2[i] + 32);
         }
     }
     
-    float inter = 0;
-    float uni = 0;
+    map<string, int> map1;
+    for(int i = 0 ; i < str1.size() - 1 ; i ++ ){
+        string temp = "";
+        if(('a'<= str1[i] && str1[i] <= 'z') && ('a' <= str1[i + 1] && str1[i + 1] <= 'z')){
+            temp += str1[i];
+            temp += str1[i + 1];
+            map1[temp] ++;
+        }
+        
+    }
     
-    //intersect
-    for(auto e : keys){
-        if(m1[e] != 0 && m2[e] != 0){
-            if(m1[e] > m2[e]){
-                inter = inter + m2[e];
-            }
-            else{
-                inter = inter + m1[e];
-            }
+    map<string, int> map2;
+    for(int i = 0 ; i < str2.size() - 1 ; i ++ ){
+        string temp = "";
+        if(('a'<= str2[i] && str2[i] <= 'z') && ('a' <= str2[i + 1] && str2[i + 1] <= 'z')){
+            temp += str2[i];
+            temp += str2[i + 1];
+            map2[temp] ++;
         }
     }
     
     //union
-    for(auto e : keys){
-        if(m1[e] > m2[e]){
-            uni = uni + m1[e];
-        }
-        else{
-            uni = uni + m2[e];
-        }
-    }
-      
-    if(uni != 0){
-        result = inter / uni;
+    map<string, int> unions;
+    
+    for(auto a : map1){ 
+        unions[a.first] = a.second; 
     }
     
-    answer = result * 65536;
+    for(auto b : map2){
+        if(unions[b.first] != 0){
+            int max = unions[b.first];
+            if(max < b.second){
+                max = b.second;
+            }
+            unions[b.first] = max;
+        }
+        else{
+            unions[b.first] = b.second;
+        }
+    }
+    
+    //intersect
+    map<string, int> inter;
+    for(auto a : map1){
+        if(map2[a.first] != 0){
+            int min = map1[a.first];
+            if(min > map2[a.first]){
+                min = map2[a.first];
+            }
+            inter[a.first] = min;
+        }
+    }
+    
+    float u = 0;
+    for(auto a : unions){
+        u += a.second;
+    }
+    
+    float i = 0;
+    for(auto b : inter){
+        i += b.second;
+    }
+
+    //cout << i << "union " << u << ' ';
+    
+    if(i == 0 && u == 0){
+        return 65536;
+    }
+    answer = (i / u) * 65536;
+    
     return answer;
 }
