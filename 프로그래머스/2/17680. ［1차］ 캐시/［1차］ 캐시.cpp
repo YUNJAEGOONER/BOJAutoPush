@@ -1,6 +1,6 @@
 #include <string>
 #include <vector>
-#include <algorithm>
+#include <map>
 #include <iostream>
 
 using namespace std;
@@ -8,40 +8,60 @@ using namespace std;
 int solution(int cacheSize, vector<string> cities) {
     int answer = 0;
     
-    int hit = 0;
-    int miss = 1; //처음에는 모두 miss;
-   
-    //대소문자를 구분하지 않음 : 모두 소문자로 변경
+    map<string, int> maps;
+    map<int, string> keys;
+    
+    //tosmallletter
     for(int i = 0 ; i < cities.size() ; i ++ ){
-        transform(cities[i].begin(), cities[i].end(), cities[i].begin(), ::tolower);
+        for(int j = 0 ; j < cities[i].size() ; j ++ ){
+            if('A'<= cities[i][j] && cities[i][j] <= 'Z'){
+                cities[i][j] += 32;
+            }
+        }
     }
     
-    vector<string> cache;
-    
-    cache.push_back(cities[0]);
-    
-    if(cacheSize){
-        for(int i = 1 ; i < cities.size() ; i ++){
-            int flag = 1;
-            for(auto itr = cache.begin(); itr != cache.end() ; itr ++ ){
-                if(*itr == cities[i]){
-                    hit++;
-                    flag = 0;
-                    cache.erase(itr);
-                    break;
-                 }
-            }
-            if(flag){
-                miss ++;
-                if(cache.size() == cacheSize){
-                    cache.erase(cache.begin());
+    for(int i = 0 ; i < cities.size() ; i ++ ){
+        string cur = cities[i];
+        if(cacheSize){
+            if(maps.size() < cacheSize){
+                //miss
+                if(maps[cur] == 0){
+                    answer += 5;
+                }
+                //hit
+                else{
+                    int prev = maps[cur]; //이전 키
+                    keys.erase(prev);
+                    answer += 1;
                 }
             }
-            cache.push_back(cities[i]);
+            else{
+                //miss
+                if(maps[cur] == 0){
+                    int prev = keys.begin()->first; //LRU;
+                    string str = keys.begin()->second;
+                    maps[str] = 0;
+                    keys.erase(prev);
+                    answer += 5;
+                }
+                //hit
+                else{
+                    int prev = maps[cur]; //이전 키
+                    keys.erase(prev);
+                    answer += 1;
+                }
+            }
+            maps[cur] = i + 1; //새로운 키 업데이트
+            keys[i + 1] = cur;
         }
-        answer = 5 * miss + hit;
+        else{
+            answer = 5 * cities.size();
+        }
+        
     }
-    else answer = 5 * cities.size(); //cacheSize가 0인 경우
+    
+    
+    
     
     return answer;
 }
