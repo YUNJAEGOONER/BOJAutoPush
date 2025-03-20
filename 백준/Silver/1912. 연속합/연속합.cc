@@ -1,40 +1,31 @@
+//
+// Created by Yunjae on 2025-03-20.
+//
 #include <iostream>
+#include <vector>
 using namespace std;
 
-int main(){
-    int N;
-    cin >> N;
-    int size = N;
-    int array [size];
-    int index = 0;
-
-    while(N--){
-        int element;
-        cin >> element;
-        array[index ++] = element;
+int main() {
+    
+    int n;
+    cin >> n;
+    vector<int> vec;
+    for(int i = 0 ; i < n ; i ++ ) {
+        int e;
+        cin >> e;
+        vec.push_back(e);
     }
 
-    int max = 0;
-    int sum = 0;
-    int max_element = array[0];
-
-    for(int i = 0 ; i < size ; i ++ ){
-        if(max_element < array[i]) {
-            max_element = array[i];
+    int max = vec[0];
+    for(int i = 1 ; i < n ; i ++ ) {
+        if (vec[i - 1] + vec[i] > vec[i]) {
+            vec[i] = vec[i - 1] + vec[i];
         }
-        sum = sum + array[i];
-        if(sum > max){
-            max = sum;
-        }
-        else if(sum < 0){
-            sum = 0;
+        if(max < vec[i]) {
+            max = vec[i];
         }
     }
 
-    if(max != 0){
-        cout << max;
-    }
-    else{
-        cout << max_element;
-    }
+    cout << max;
+    return 0;
 }
