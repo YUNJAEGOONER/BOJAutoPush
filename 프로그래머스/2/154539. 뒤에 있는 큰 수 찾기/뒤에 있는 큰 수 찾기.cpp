@@ -7,20 +7,24 @@ using namespace std;
 vector<int> solution(vector<int> numbers) {
     vector<int> answer(numbers.size(), -1);
     
-    stack<int> index;
+    stack<int> idx;
+    idx.push(0);
     
-    for(int i = 0 ; i < numbers.size() - 1 ; i ++ ){
-        if(numbers[i] >= numbers[i + 1]){
-            index.push(i);
-        }
-        else{
-            answer[i] = numbers[i + 1];
-            while(index.size() && (numbers[index.top()] < numbers[i + 1])){
-                answer[index.top()] = numbers[i + 1];
-                index.pop();
+    for(int i = 1 ; i < numbers.size(); i ++ ){
+        int cur = numbers[i];
+        while(!idx.empty()){
+            int sidx = idx.top();
+            if(numbers[sidx] < cur){
+                answer[sidx] = cur;
+                idx.pop();
+            }
+            else{
+                break;
             }
         }
+        idx.push(i);
     }
+    
     
     
     return answer;
