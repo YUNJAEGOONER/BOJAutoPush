@@ -1,25 +1,29 @@
 #include <iostream>
-#include <string>
-#include <vector>
+#include<string>
+#include <stack>
 using namespace std;
 
 int solution(string s)
 {
     int answer = 0;
     
-    vector<char> mystack;
-    mystack.push_back(s[0]);
-    
+    stack<char> mstack;
+    mstack.push(s[0]);
+
     for(int i = 1 ; i < s.size() ; i ++ ){
-        if(*(mystack.end()-1) == s[i]){
-            mystack.erase(mystack.end() - 1);
+        if(!mstack.empty()){
+            if(mstack.top() == s[i]){
+                mstack.pop();
+            }
+            else{
+                mstack.push(s[i]);
+            }
         }
         else{
-            mystack.push_back(s[i]);
+            mstack.push(s[i]);
         }
     }
     
-    if(mystack.empty()) answer = 1;
-
+    if(!mstack.size()) answer = 1;
     return answer;
 }
