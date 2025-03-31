@@ -1,59 +1,39 @@
-//
-// Created by Yunjae on 2025-03-31.
-//
 #include<vector>
 #include<iostream>
 using namespace std;
 
 int main() {
-    //cout << "Baek14719" ;
 
     int H, W;
     cin >> H >> W;
-
-    int max= 0;
-
     vector<int> vec;
 
-    int max_idx = 0;
     for(int i = 0 ; i < W ; i ++ ) {
         int e;
         cin >> e;
         vec.push_back(e);
-        if(max <= e) {
-            max = e;
-            max_idx = i;
-        }
     }
 
-    int answer = 0;
+    int ans = 0;
 
-    int cur_max = vec[0];
-    for(int i = 1 ; i < max_idx ; i ++ ) {
-        if(cur_max >= vec[i]) {
-            //cout << cur_max;
-            //cout << (cur_max - vec[i]);
-            answer += (cur_max - vec[i]);
+    for(int i = 1 ; i < vec.size() - 1  ; i ++ ) {
+        //get_left_max
+        int lmax = vec[i];
+        for(int j = i - 1 ; j > - 1 ; j -- ) {
+            if(lmax < vec[j]) lmax = vec[j];
         }
-        else {
-            cur_max = vec[i];
-            //cout << cur_max;
+
+        //get_right_max
+        int rmax = vec[i];
+        for(int j = i + 1 ; j < vec.size(); j ++ ) {
+            if(rmax < vec[j]) rmax = vec[j];
         }
+
+        if(rmax > lmax) ans += lmax - vec[i];
+        else ans += rmax - vec[i];
     }
 
-    cur_max = vec[vec.size() - 1];
-    for(int i = vec.size() - 1; i > max_idx ; i -- ) {
-        if(cur_max >= vec[i]) {
-            //cout << cur_max;
-            answer += (cur_max - vec[i]);
-        }
-        else {
-            cur_max = vec[i];
-            //cout << cur_max;
-        }
-    }
-
-    cout << answer;
+    cout << ans;
 
 
     return 0;
