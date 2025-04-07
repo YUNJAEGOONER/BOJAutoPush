@@ -1,27 +1,27 @@
 #include <string>
 #include <vector>
-#include <iostream>
 #include <algorithm>
-using namespace std;
 
-bool cmp(int a, int b){return a < b;}
+using namespace std;
 
 int solution(vector<int> people, int limit) {
     int answer = 0;
     
-    //내림차순 정렬
-    sort(people.begin(), people.end(), cmp);
+    sort(people.rbegin(), people.rend());
+
+    vector<int> visited(people.size());
+    int min_idx = people.size() - 1;
     
-    vector<int> visit (people.size());
-    
-    int light = 0;
-    for(int i = people.size() - 1 ; i > -1 ; i -- ){
-        int sum = 0;
-        if(!visit[i]){
-            answer ++;
-            sum = sum + people[i];
-            if(sum + people[light] <= limit) visit[light++] = 1; 
+    for(int i = 0 ; i < people.size() ; i ++ ){
+        if(visited[i] == 0){
+            visited[i] = 1;
+            if(people[i] + people[min_idx] <= limit){
+                visited[min_idx] = 1;
+                min_idx --;
+            }
+            answer++;
         }
     }
+    
     return answer;
 }
