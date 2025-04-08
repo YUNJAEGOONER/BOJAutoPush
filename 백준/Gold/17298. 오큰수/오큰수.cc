@@ -1,5 +1,5 @@
 //
-// Created by Yunjae on 2025-03-06.
+// Created by Yunjae on 2025-04-08.
 //
 #include <iostream>
 #include <vector>
@@ -7,30 +7,27 @@
 using namespace std;
 
 int main() {
+
     int N;
     cin >> N;
     vector<int> vec;
-
-    while(N--){
-        int a;
-        cin >> a;
-        vec.push_back(a);
+    for(int i = 0 ; i < N ; i ++ ) {
+        int e;
+        cin >> e;
+        vec.push_back(e);
     }
 
-    vector<int> result(vec.size() , - 1);
-    stack<int> mstack;
+    vector<int> result(N , -1);
 
-    for(int i = 0 ; i < vec.size() - 1 ; i ++ ) {
-        if(vec[i] >= vec[i + 1]) {
-            mstack.push(i);
+    stack<int> stk;
+    stk.push(0);
+
+    for(int i = 1;  i < N ; i ++ ) {
+        while(!stk.empty() && vec[stk.top()] < vec[i]) {
+            result[stk.top()] = vec[i];
+            stk.pop();
         }
-        else {
-            result[i] = vec[i + 1];
-            while(mstack.size() && vec[mstack.top()] < vec[i + 1]) {
-                result[mstack.top()] = vec[i + 1];
-                mstack.pop();
-            }
-        }
+        stk.push(i);
     }
 
     for(auto a : result) {
