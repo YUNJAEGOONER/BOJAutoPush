@@ -1,40 +1,43 @@
 //
-// Created by Yunjae on 2025-04-04.
+// Created by Yunjae on 2025-04-09.
 //
 #include <iostream>
-#include <map>
 #include <vector>
 using namespace std;
 
-int main() {
+vector<int> tempvec;
 
-    map<int, vector<string>>mmap;
-    mmap[1].push_back("1");
+int n, k;
+int cntt = 0;
+string resstr = "";
 
-    mmap[2].push_back("1+1");
-    mmap[2].push_back("2");
-
-    mmap[3].push_back("1+1+1");
-    mmap[3].push_back("1+2");
-    mmap[3].push_back("2+1");
-    mmap[3].push_back("3");
-
-    int n, idx;
-    cin >> n >> idx;
-
-    for(int i = 4 ; i < n + 1 ; i ++ ) {
-        int cur_val = i;
-        for(int j = 1; j <= 3 ; j ++ ) {
-            for(int k = 0 ; k < mmap[cur_val - j].size() ; k ++ ) {
-                string tstr = to_string(j) + "+";
-                tstr += mmap[cur_val - j][k];
-                mmap[cur_val].push_back(tstr);
+void bt12101(int sum){
+    if(sum == n) {
+        cntt ++;
+        if(cntt == k) {
+            for(int i = 0 ; i < tempvec.size() - 1; i ++ ) {
+                resstr += to_string(tempvec[i]);
+                resstr += '+';
             }
+            resstr += to_string(tempvec[tempvec.size() - 1]);
         }
+        return;
     }
+    if(sum > n) return;
+    for(int i = 1 ; i < 4 ; i ++) {
+        tempvec.push_back(i);
+        bt12101(sum + i);
+        tempvec.pop_back();
+    }
+}
 
-    if(mmap[n].size() < idx) cout << -1;
-    else cout << mmap[n][idx -1];
+int main() {
+    cin >> n >> k;
+
+    bt12101(0);
+
+    if(resstr.size() == 0) cout << -1;
+    else cout << resstr;
 
     return 0;
 }
