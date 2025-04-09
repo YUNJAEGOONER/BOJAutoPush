@@ -5,82 +5,65 @@
 
 using namespace std;
 
-vector<vector<int>> to_int(vector<vector<string>> arr){
-    vector<vector<int>> intarr;
-    
-    for(int i = 0 ; i < arr.size() ; i ++ ){
+vector<vector<int>> toInteger(vector<vector<string>> vec){
+    vector<vector<int>> rvec(vec.size()); 
+    for(int i = 0 ; i < vec.size() ; i ++){
+        string start = "";
+        string h1 = vec[i][0].substr(0, 2);
+        string m1 = vec[i][0].substr(3, 2);
+        start += h1;
+        start += m1;
+             
+        string end = "";
+        int h2 = stoi(vec[i][1].substr(0, 2));
+        int m2 = stoi(vec[i][1].substr(3, 2));
         
-        string stime = "";
-        string shour = arr[i][0].substr(0,2);
-        string smin = arr[i][0].substr(3,2);
-        stime += shour;
-        stime += smin;
-        cout << stime << ' ';
-        
-        string etime = "";
-        
-        int ehour = stoi(arr[i][1].substr(0,2));
-        int emin = stoi(arr[i][1].substr(3,2));
-        emin += 10;
-        
-        if(emin >= 60){
-            emin = emin - 60;
-            ehour += 1;
-            if(ehour == 24){
-                ehour -= 1;
-                emin = (emin + 50);
-            }
+        //청소 시간
+        m2 += 9; 
+        if(m2 >= 60){
+            m2 -= 60;
+            h2 += 1;
         }
         
-        string strmin = "";
-        if(emin < 10){
-            strmin += '0';
-        }
-        strmin += to_string(emin);
-    
-        etime += to_string(ehour);
-        etime += strmin;
-
-        vector<int> row;
-        row.push_back(stoi(stime));
-        row.push_back(stoi(etime));
-        intarr.push_back(row);
+        if(h2 < 10) end += ("0" + to_string(h2));
+        else end += to_string(h2);
+        
+        if(m2 < 10) end += ("0" + to_string(m2));
+        else end += to_string(m2);
+        
+        rvec[i].push_back(stoi(start));
+        rvec[i].push_back(stoi(end));
     }
-    return intarr;
+    return rvec;
 }
 
-bool cmp1(vector<int> v1, vector<int> v2){
-    return v1[1] < v2[1];
+bool cmp(vector<int> a, vector<int> b){
+   if (a[0] == b[0]) return a[1] > b[1];
+
+    return a[0] < b[0];
 }
 
 int solution(vector<vector<string>> book_time) {
-    int answer = 0;
     
-    vector<vector<int>> marr = to_int(book_time);
-    sort(marr.begin(), marr.end(), cmp1);
+    vector<vector<int>> vec = toInteger(book_time);
+    sort(vec.begin(), vec.end(), cmp);
     
     vector<int> rooms;
-    rooms.push_back(marr[0][1]);
+    rooms.push_back(vec[0][1]);
     
-    for(int i = 1 ; i < marr.size() ; i ++){
-        int cur = marr[i][0];
-        int min = 24 * 60;
-        int min_idx = -1;
-        sort(rooms.begin(), rooms.end());
+    for(int i = 1 ; i < vec.size() ; i ++){
+        bool addnew = true;
         for(int j = 0 ; j < rooms.size() ; j ++ ){
-            if(rooms[j] <= cur){
-                if(cur - rooms[j] < min){
-                    min = cur - rooms[j];
-                    min_idx = j;
-                }
+            if(rooms[j] < vec[i][0]){
+                rooms[j] = vec[i][1];
+                addnew = false;
+                break;
             }
         }
-        if(min_idx == - 1) rooms.push_back(marr[i][1]);
-        else rooms[min_idx] = marr[i][1];
-       
-        cout << '\n';
+        if(addnew) rooms.push_back(vec[i][1]);
+        
     }
-    answer = rooms.size();
-  
-    return answer;
+    
+    return rooms.size();
+
 }
