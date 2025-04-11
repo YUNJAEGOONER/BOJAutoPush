@@ -4,37 +4,49 @@
 
 using namespace std;
 
-vector<int> visit;
-int sum = 0;
+//중복을 허용하지 않음
+//순서가 존재함
+vector<int> visited;
+vector<int> temp;
 
+vector<vector<int>> vec;
+int n0;
 int answer = 0;
 
-void mybfs(vector<int> temp, int e, vector<vector<int>> dungeons, int k, int depth) {
-    
-    if(answer <= depth){
-        answer = depth;
+void bt(int depth, int k){
+    if(depth == visited.size()){
+        int n0 = k;
+        int cnt = 0;
+        for(int i = 0 ; i < temp.size() ; i ++ ){
+            if(n0 >= vec[temp[i]][0]){
+                n0 -= vec[temp[i]][1];
+                cnt ++;
+            }
+            else{
+                break;
+            }
+        }
+        if(answer < cnt) answer = cnt;
+        return;
     }
-    
-    for(int i = 0 ; i < e ; i ++ ){
-        if(visit[i]){continue;}
-        if(k >= dungeons[i][0]){
-            visit[i] = 1;
+    for(int i = 0 ; i < visited.size() ; i ++ ){
+        if(visited[i] == 0){
             temp.push_back(i);
-            k = k - dungeons[i][1];
-            mybfs(temp, e, dungeons, k, depth + 1);
-            visit[i] = 0;
-            k = k + dungeons[i][1];
+            visited[i] = 1;
+            bt(depth + 1, k);
             temp.pop_back();
+            visited[i] = 0;
         }
     }
 }
 
-int solution(int k, vector<vector<int>> dungeons) {
-    vector<int> temp;
-    
-    visit = vector<int>(dungeons.size());
 
-    mybfs(temp, dungeons.size(), dungeons, k, 0);
+int solution(int k, vector<vector<int>> dungeons) {
+    visited = vector<int> (dungeons.size());
+    
+    vec = dungeons;
+    
+    bt(0, k);
     
     return answer;
 }
