@@ -1,16 +1,20 @@
+import java.io.*;
 import java.util.*;
 
 public class Main {
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
 
-        int n = sc.nextInt();
-        int m = sc.nextInt();
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+
+        int n = Integer.parseInt(bufferedReader.readLine());
+        int m = Integer.parseInt(bufferedReader.readLine());
 
         int [] arr = new int [n];
+
+        StringTokenizer stringTokenizer = new StringTokenizer(bufferedReader.readLine());
         for(int i = 0 ; i < n; i++ ){
-            int e = sc.nextInt();
+            int e = Integer.parseInt(stringTokenizer.nextToken());
             arr[i] = e;
         }
 
@@ -22,9 +26,12 @@ public class Main {
         int answer = 0;
 
         while(start < end){
-            if(arr[start] + arr[end] == m) answer ++;
-
-            if(arr[start] + arr[end] < m) start ++;
+            if(arr[start] + arr[end] == m){
+                answer ++;
+                start ++;
+                end --;
+            }
+            else if(arr[start] + arr[end] < m) start ++;
             else end --;
         }
 
