@@ -3,9 +3,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
+
     public static class Pair{
         int x, y;
         public Pair(int x, int y){
@@ -15,18 +14,16 @@ public class Main {
     }
 
     static int [] visited;
+    static int [][] mmap;
+
     static ArrayList<Integer> temp = new ArrayList<>();
 
     static int max = -1;
 
-    static int [] dir_x = {1, -1, 0, 0};
-    static int [] dir_y = {0 , 0, 1, -1};
-
-    static int [][] mmap;
-
     static ArrayList<Pair> pairs = new ArrayList<>();
 
-    static int c = 0;
+    static int [] dir_x = {1, -1, 0, 0};
+    static int [] dir_y = {0 , 0, 1, -1};
 
     public static void bfs(ArrayList<Integer> arr){
         Queue<Pair> queue = new LinkedList<>();
@@ -82,7 +79,6 @@ public class Main {
 
     public static void bt(ArrayList<Integer> arr, int start){
         if (arr.size() == 3){
-            c++;
             bfs(arr);
             return;
         }
