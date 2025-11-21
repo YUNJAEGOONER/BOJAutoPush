@@ -1,50 +1,49 @@
 //
-// Created by Yunjae on 2025-03-05.
+// Created by Yunjae on 2025-03-21.
 //
-#include<iostream>
-#include<algorithm>
-#include<vector>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <climits>
 using namespace std;
 
-bool mcmp(long a, long b) {
-    return abs(a) < abs(b);
-}
-
 int main() {
-    int N;
-    cin >> N;
+    int n;
+    cin >> n;
 
-    vector<long> vec;
-    while(N--) {
-        long e;
+    vector<long long> vec;
+    for(int i = 0 ; i < n ; i ++ ) {
+        long long e;
         cin >> e;
         vec.push_back(e);
     }
 
-    sort(vec.begin(), vec.end(), mcmp);
+    sort(vec.begin(), vec.end());
 
-    long sum = vec[0] + vec[1];
-    long max = abs(sum);
+    int i = 0;
+    int j = vec.size() - 1;
 
-    int a = 0;
-    int b = 1;
+    int tempi = vec[i];
+    int tempj = vec[j];
 
-    for(int i = 1; i < vec.size() - 1 ; i ++ ) {
-        sum -= vec[i - 1];
-        sum += vec[i + 1];
-        if(max > abs(sum)) {
-            a = i;
-            b = i + 1;
-            max = abs(sum);
+    long long min = LONG_LONG_MAX;
+
+    while(i < j) {
+        long long liquid = vec[i] + vec[j];
+        if(abs(liquid) < min) {
+            tempi = vec[i];
+            tempj = vec[j];
+            min = abs(liquid);
+        }
+        if(liquid > 0) {
+            j --;
+        }
+        else {
+            i ++;
         }
     }
 
-    vector<long> result;
-    result.push_back(vec[a]);
-    result.push_back(vec[b]);
-    sort(result.begin(), result.end());
-
-    cout << result[0] << ' ' << result[1];
+    cout << tempi << ' ' << tempj;
 
     return 0;
 }
